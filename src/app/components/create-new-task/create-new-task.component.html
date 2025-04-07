@@ -1,0 +1,26 @@
+<div class="logout-container">
+  <button mat-raised-button color="warn" (click)="logout()">Logout</button>
+</div>
+
+<h2>Create a New Task</h2>
+<form (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <input matInput placeholder="Title" [(ngModel)]="newTask.title" name="title" required>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Category" [(ngModel)]="newTask.category" name="category" required>
+  </mat-form-field>
+
+  <mat-form-field>
+    <textarea matInput placeholder="Description" [(ngModel)]="newTask.description" name="description"></textarea>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Priority" [(ngModel)]="newTask.priority" name="priority" required>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit">Save Task</button>
+</form>
+
+<!-- create-new-task.component.html -->

@@ -1,0 +1,31 @@
+<p>user-profile works!</p>
+
+<div class="profile-container">
+  <h2>User Profile</h2>
+
+  <!-- Display error or success messages -->
+  <div *ngIf="errorMessage" class="error-message">
+    <p>{{ errorMessage }}</p>
+  </div>
+  <div *ngIf="successMessage" class="success-message">
+    <p>{{ successMessage }}</p>
+  </div>
+
+  <!-- Profile Form -->
+  <form (ngSubmit)="updateUserProfile()">
+    <!-- Username Field -->
+    <mat-form-field appearance="fill">
+      <mat-label>Username</mat-label>
+      <input matInput [(ngModel)]="user.username" name="username" required />
+    </mat-form-field>
+
+    <!-- Password Field -->
+    <mat-form-field appearance="fill">
+      <mat-label>Password</mat-label>
+      <input matInput [(ngModel)]="user.password" type="password" name="password" required />
+    </mat-form-field>
+
+    <!-- Submit Button -->
+    <button mat-raised-button color="primary" type="submit">Update Profile</button>
+  </form>
+</div>
