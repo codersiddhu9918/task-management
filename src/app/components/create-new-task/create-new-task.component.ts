@@ -30,7 +30,15 @@ export class CreateNewTaskComponent {
   constructor(private apiService: ApiService, private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
-    // Retrieve userId from AuthService when the component is initialized
+    // const userId = this.authService.getUserId();
+    // if (userId !== null && userId !== undefined) {
+    //   this.newTask.user.id = userId; // Set the user ID inside the user object
+    // } else {
+    //   console.error('User ID is not available');
+    // }
+  }
+
+  getUserId() : void{
     const userId = this.authService.getUserId();
     if (userId !== null && userId !== undefined) {
       this.newTask.user.id = userId; // Set the user ID inside the user object
@@ -40,6 +48,7 @@ export class CreateNewTaskComponent {
   }
 
   onSubmit(): void {
+    this.getUserId();
     console.log('New task:', this.newTask);
     this.apiService.createTask(this.newTask).subscribe(
       () => {

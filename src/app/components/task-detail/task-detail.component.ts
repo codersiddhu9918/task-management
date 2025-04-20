@@ -38,7 +38,7 @@ export class TaskDetailComponent implements OnInit {
     private apiService: ApiService,
     private router: Router,
     private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
   ) {
     this.taskForm = this.fb.group({
       title: ['', Validators.required],
@@ -97,8 +97,6 @@ export class TaskDetailComponent implements OnInit {
         console.error('User  ID is not available');
         return; // Prevent the save if userId is missing
       }
-
-      // Update the task
       this.apiService.updateTask(this.taskId, taskData).subscribe({
         next: () => {
           console.log('Task updated successfully');

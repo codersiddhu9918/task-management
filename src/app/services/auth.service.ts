@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 
 
@@ -17,65 +17,45 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}users/login`, { username, password });
   }
 
-
-  // setUserId(userId: number): void {
-  //   localStorage.setItem('userId', userId.toString()); // Store userId as string
-  // }
-
   setUserId(userId: number): void {
     localStorage.setItem('userId', userId.toString());
     console.log('User ID saved:', userId);  // Debug log to verify userId is being saved
   }
 
-  // Get the userId from localStorage
-  // getUserId(): number | null {
-  //   const userId = localStorage.getItem('userId');
-  //   return userId ? parseInt(userId, 10) : null; // Return userId as a number
-  // }
+  logout(): void {
+    localStorage.removeItem('authToken');
+    this.token = '';
+    localStorage.removeItem('tokenExpiration');  // Optionally remove the token expiration
+    this.router.navigate(['/login']);
+  }
+
+  getToken(): string | null {
+    const token = localStorage.getItem('authToken');
+    return token;
+  }
 
   getUserId(): number | null {
     const userId = localStorage.getItem('userId');
-    console.log('User ID retrieved:', userId);  // Debug log to verify it's being retrieved
+    console.log("user id fetched ", userId);
     return userId ? parseInt(userId, 10) : null;  // Return as number or null
   }
 
-  // logout(): void {
-  //   // Clear any authentication data (tokens, etc.)
-  //   localStorage.removeItem('authToken');
-  //   sessionStorage.removeItem('authToken');
+  getUserProfile(): Observable<any> {
+    const token = this.getToken();
 
-
-  //   // Redirect to the login page
-  //   this.router.navigate(['/login']);
-  // }
-
-  // Check if the user is authenticated
-  logout(): void {
-    localStorage.removeItem('userId');
-    console.log('User logged out');  // Debug log
-    this.router.navigate(['/login']);  // Redirect to login page
+    if (!token) {
+      console.error('Token is missing or invalid');
+      return throwError('Token is missing or invalid'); // Return an error if token is missing
+    }
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`); // Set the Authorization header
+    return this.http.get(`${this.baseUrl}users/me`, { headers });
   }
 
-  // Check if the user is authenticated (i.e., UserId exists)
+  setToken(token: string): void {
+    localStorage.setItem('authToken', token);
+  }
+
   isAuthenticated(): boolean {
-    return this.getUserId() !== null;
+    return !!this.getToken();
   }
-
-  // getCurrentUserId():userid{
-  //   return localStorage.getItem('userId') || '';
-  // }
-
-
-  // setToken(token: string) {
-  //   this.token = token;
-  //   localStorage.setItem('jwt', token);
-  // }
-
-  // getToken() {
-  //   return this.token || localStorage.getItem('jwt');
-  // }
-
-  // isAuthenticated(): boolean {
-  //   return !!this.getToken();
-  // }
 }

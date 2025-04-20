@@ -31,12 +31,10 @@ import { MatSelectModule } from '@angular/material/select';
     MatButtonModule,
     MatSelectModule,
     MatOptionModule,
-     // Import your ComponentsModule
-    // RouterModule is not needed here since AppRoutingModule already imports it
   ],
   providers: [
-    provideHttpClient(), // Use this instead of HttpClientModule
-    provideRouter(routes) // Include your routing configuration
+    provideHttpClient(), //
+    provideRouter(routes) //
   ]
 })
 export class AppModule { }

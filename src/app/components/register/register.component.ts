@@ -1,13 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, Input, input } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { User } from '../../models/user.model';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
-import { routes } from '../../app.routes';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -24,6 +23,7 @@ export class RegisterComponent {
   message: string = "";
 
   constructor ( private apiService: ApiService){
+
 
   }
   register(registerForm : NgForm) {
@@ -50,11 +50,4 @@ export class RegisterComponent {
       this.errorMessage = 'Please fill in all required fields';
     }
   }
-  // onLoginClick() {
-  //   console.log("Login link clicked");
-  //   this.router.navigate(['/login']);  // Programmatic navigation
-  // }
-
 }
-
-

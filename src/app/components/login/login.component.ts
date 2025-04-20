@@ -31,11 +31,17 @@ export class LoginComponent {
     if (this.user.username && this.user.password) {
       this.authService.login(this.user.username, this.user.password).subscribe({
         next: (response) => {
-          this.authService.setUserId(response.id);
-          // console.log('Login successful:', response);
-          this.user.id  = response.id;
-          // localStorage.setItem('authToken', response.token);
-          this.router.navigate(['/tasks']);
+          if(response.token && response.expiresIn){
+              this.authService.setToken(response.token);
+              const expirationTime = new Date().getTime()+response.expiresIn;
+              localStorage.setItem('tokenExpiration',expirationTime.toString());
+              this.authService.getUserProfile().subscribe({
+                next : (response) => {
+                  this.authService.setUserId(response.id);
+                }
+              })
+              this.router.navigate(['/tasks']);
+          }
         },
         error: (error) => {
           console.error('Login error:', error);
@@ -47,5 +53,3 @@ export class LoginComponent {
     }
   }
 }
-
-

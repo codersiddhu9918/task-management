@@ -11,8 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [MatCardModule, RouterModule, MatGridListModule,NgFor,CommonModule,
-    MatButtonModule],
+  imports: [MatCardModule, RouterModule, MatGridListModule,NgFor,CommonModule,MatButtonModule],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.css'
 })
@@ -30,7 +29,7 @@ export class TaskListComponent {
     const userId = this.authService.getUserId() ?? 0;
     this.apiservice.getTasks(userId).subscribe(tasks => {
       this.tasks = tasks;
-      console.log(this.tasks,this.apiservice);
+
     });
   }
 
